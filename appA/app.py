@@ -72,6 +72,18 @@ def privaction():
       # do something else
       return "fail"
 
+@app.route('/api/cookieaction', methods=['POST','OPTIONS'])
+def cookieaction():
+  if request.method == "POST":
+    if 'userID' in request.cookies:
+      if  request.cookies.get('userID') == "restdone": # should also check it is same as cookie
+      # do something
+        print("Cookie Action triggiered.")
+        return "success"
+    else:
+      # do something else
+      return "fail"
+
 @app.route('/')
 def hello_world():
       return render_template('index.html')

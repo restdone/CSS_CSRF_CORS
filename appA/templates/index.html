@@ -103,6 +103,21 @@
   }
 
 
+  function attemptCookieAction(){
+    fetch ("http://localhost:9999/api/cookieaction",{
+        //some headers control
+        method: 'POST'
+      })
+      .then(response=>response.text())
+      .then(data=>{
+        if (data == 'success')
+          document.getElementById("CookieActionResult").innerHTML = "Cookie Action has done at server";
+          else
+          document.getElementById("CookieActionResult").innerHTML = "Cookie Action has failed at server";
+      })
+  }
+
+
     </script>
   </head>
   <body onload="checkUserID()">
@@ -118,12 +133,15 @@
     <p>POST Username to API endpoint without CORS:</p>
     <input type="text" id="username2" name="username2" placeholder="username2">
     <button type="submit" onclick="return post_api2(document.getElementById('username2').value);" >Disallow CORS</button>
-    <p>Login set Cookie :</p>
+    <p>Login set Session and Cookie :</p>
     <input type="text" id="loginUsername" name="loginUsername" placeholder="loginUsername">
     <button type="submit" onclick="return login(document.getElementById('loginUsername').value);" >Login</button>
     <p>Request Priv Action :</p>
     <button type="submit" onclick="return attemptPrivAction();" >Action</button>
     <p id="actionResult"></p>
+    <p>Request Cookie Action :</p>
+    <button type="submit" onclick="return attemptCookieAction();" >Action</button>
+    <p id="CookieActionResult"></p>
 
   </body>
 </html>
