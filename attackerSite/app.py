@@ -9,8 +9,11 @@ app = Flask(__name__)
 #app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route("/cookie",methods=['POST','OPTIONS'])
+@cross_origin()
 def cookie():
   print(request.cookies)
+  if request.form.get("cookies"):
+      print("In request: "+request.form.get("cookies"))
   return "GET!"
 
 @app.route('/')
