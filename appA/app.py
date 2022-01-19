@@ -64,9 +64,22 @@ def login():
 def privaction():
   if request.method == "POST":
     if 'userID' in session:
-      if session['userID'] == "restdone": # should also check it is same as cookie
+      if session['userID'] == "restdone": 
       # do something
         print("Priv Action triggiered.")
+        return "success"
+    else:
+      # do something else
+      return "fail"
+
+@app.route('/api/corsprivaction', methods=['POST','OPTIONS'])
+@cross_origin(origins=['http://localhost:9999'],supports_credentials=True)
+def corsprivaction():
+  if request.method == "POST":
+    if 'userID' in session:
+      if session['userID'] == "restdone": 
+      # do something
+        print("CORS Priv Action triggiered.")
         return "success"
     else:
       # do something else
@@ -76,7 +89,7 @@ def privaction():
 def cookieaction():
   if request.method == "POST":
     if 'userID' in request.cookies:
-      if  request.cookies.get('userID') == "restdone": # should also check it is same as cookie
+      if  request.cookies.get('userID') == "restdone": 
       # do something
         print("Cookie Action triggiered.")
         return "success"

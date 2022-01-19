@@ -3,6 +3,12 @@
     <title>Playing WebFront</title>
     <script> 
     
+    function htmlEncode(str){
+      return String(str).replace(/[^\w. ]/gi, function(c){
+      return '&#'+c.charCodeAt(0)+';';
+      });
+    }
+
     function getCookie(name) {
     var match = document.cookie.match(RegExp('(?:^|;\\s*)' + name + '=([^;]*)')); return match ? match[1] : null;
     }
@@ -41,6 +47,8 @@
 
         //DOM insert to the current doc
         document.getElementById("dom").innerHTML = data;
+        // Mitigation
+        //document.getElementById("dom").innerHTML = htmlEncode(data);
 
         })
     }
@@ -103,6 +111,21 @@
   }
 
 
+  function attemptCORSPrivAction(){
+    fetch ("http://localhost:9999/api/corsprivaction",{
+        //some headers control
+        method: 'POST'
+      })
+      .then(response=>response.text())
+      .then(data=>{
+        if (data == 'success')
+          document.getElementById("CORSactionResult").innerHTML = "Priv Action has done at server";
+          else
+          document.getElementById("CORSactionResult").innerHTML = "Priv Action has failed at server";
+      })
+  }
+
+
   function attemptCookieAction(){
     fetch ("http://localhost:9999/api/cookieaction",{
         //some headers control
@@ -142,6 +165,9 @@
     <p>Request Cookie Action :</p>
     <button type="submit" onclick="return attemptCookieAction();" >Action</button>
     <p id="CookieActionResult"></p>
+    <p>Request Priv Action with CORS:</p>
+    <button type="submit" onclick="return attemptCORSPrivAction();" >Action</button>
+    <p id="CORSactionResult"></p>
 
   </body>
 </html>

