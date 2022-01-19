@@ -1,0 +1,129 @@
+<html>
+  <head>
+    <title>Playing WebFront</title>
+    <script> 
+    
+    function getCookie(name) {
+    var match = document.cookie.match(RegExp('(?:^|;\\s*)' + name + '=([^;]*)')); return match ? match[1] : null;
+    }
+
+    // Fetching to local site
+    function get_api(){
+      fetch ("http://localhost:9999/api/test_get",{
+        //some headers control
+      })
+      .then(response => response.text())
+      .then(data=>{
+
+        //alert
+        //alert(data)
+
+        //DOM insert to the current doc
+        document.getElementById("dom").innerHTML = data;
+
+        })
+    }
+
+    // Post data and return
+    function post_api(username){
+      var data = new FormData();
+      data.append("username",username);
+      fetch ("http://localhost:9999/api/test_post",{
+        //some headers control
+        method: 'POST',
+        body:  data
+      })
+      .then(response => response.text())
+      .then(data=>{
+
+        //alert
+        //alert(data)
+
+        //DOM insert to the current doc
+        document.getElementById("dom").innerHTML = data;
+
+        })
+    }
+  
+
+    // Post data and return
+    function post_api2(username){
+      var data = new FormData();
+      data.append("username2",username);
+      fetch ("http://localhost:9999/api/test_post2",{
+        //some headers control
+        method: 'POST',
+        body:  data
+      })
+      .then(response => response.text())
+      .then(data=>{
+
+        //alert
+        //alert(data)
+
+        //DOM insert to the current doc
+        document.getElementById("dom").innerHTML = data;
+
+        })
+    }
+
+    // Login
+    function login(username){
+      var data = new FormData();
+      data.append("loginUsername",username);
+      fetch ("http://localhost:9999/api/login",{
+        //some headers control
+        method: 'POST',
+        body:  data
+      })
+    }
+
+    //check user
+  function checkUserID(){
+    name=getCookie("userID");
+    if (name == 'null')
+     document.getElementById("greeting").innerHTML = "Please login";
+     else
+     document.getElementById("greeting").innerHTML = "Hi,"+name;
+  }
+
+
+  function attemptPrivAction(){
+    fetch ("http://localhost:9999/api/privaction",{
+        //some headers control
+        method: 'POST'
+      })
+      .then(response=>response.text())
+      .then(data=>{
+        if (data == 'success')
+          document.getElementById("actionResult").innerHTML = "Priv Action has done at server";
+          else
+          document.getElementById("actionResult").innerHTML = "Priv Action has failed at server";
+      })
+  }
+
+
+    </script>
+  </head>
+  <body onload="checkUserID()">
+    <h1 id="greeting"></h1>
+    <p>Welcome to the world of Flask!</p>
+    <button onclick="get_api()">GET API</button>
+    <button onclick="post_api()">POST API</button>
+    <p id="dom">Change by API Call</p>
+
+    <p>POST Username to API endpoint with CORS:</p>
+    <input type="text" id="username" name="username" placeholder="username">
+    <button type="submit" onclick="return post_api(document.getElementById('username').value);" >Allow CORS</button>
+    <p>POST Username to API endpoint without CORS:</p>
+    <input type="text" id="username2" name="username2" placeholder="username2">
+    <button type="submit" onclick="return post_api2(document.getElementById('username2').value);" >Disallow CORS</button>
+    <p>Login set Cookie :</p>
+    <input type="text" id="loginUsername" name="loginUsername" placeholder="loginUsername">
+    <button type="submit" onclick="return login(document.getElementById('loginUsername').value);" >Login</button>
+    <p>Request Priv Action :</p>
+    <button type="submit" onclick="return attemptPrivAction();" >Action</button>
+    <p id="actionResult"></p>
+
+  </body>
+</html>
